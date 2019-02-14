@@ -14,7 +14,7 @@ export default class Status extends Component {
         this.setState({ isConnected });
 
         // DEBUG: test connection changes
-        setTimeout(() => this.handleChange(false), 3000);
+        // setTimeout(() => this.handleChange(false), 3000);
     }
 
     componentWillUnmount() {

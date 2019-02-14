@@ -29,7 +29,33 @@ export default class MessageList extends Component {
     };
 
     renderMessageBody  = ({ type, text, uri, coordinate }) => {
-        //TODO: to be written
+        switch (type) {
+            case 'text':
+                return (
+                    <View style={styles.messageBubble}>
+                        <Text style={styles.text}>{text}</Text>
+                    </View>
+                );
+            case 'image':
+                return (
+                    <Image style={styles.image} source={{ uri }} />
+                );
+            case 'location':
+                return (
+                    <MapView 
+                        style={styles.map}
+                        initialRegion={{
+                            ...coordinate,
+                            latitudeDelta: 0.08,
+                            longitudeDelta: 0.04,
+                        }}
+                    >
+                        <MapView.Marker coordinate={coordinate} />
+                    </MapView>
+                );
+            default:
+                    return null;
+        }
     };
 
     render() {
@@ -38,7 +64,8 @@ export default class MessageList extends Component {
         return (
             <FlatList
                 style={StyleSheet.container}
-                inverteddata={messages}
+                inverted
+                data={messages}
                 renderItem={this.renderMessageItem}
                 keyExtractor={keyExtractor}
                 keyboardShouldPersistTaps={'handled'}
