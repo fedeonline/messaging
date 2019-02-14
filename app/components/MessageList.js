@@ -44,6 +44,10 @@ export default class MessageList extends Component {
                 return (
                     <MapView 
                         style={styles.map}
+                        zoomEnabled={false}
+                        rotateEnabled={false}
+                        scrollEnabled={false}
+                        pitchEnabled={false}
                         initialRegion={{
                             ...coordinate,
                             latitudeDelta: 0.08,
