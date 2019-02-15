@@ -3,6 +3,7 @@ import { Alert, BackHandler, Image, StyleSheet, TouchableHighlight, View } from 
 import Status from './app/components/Status';
 import MessageList from './app/components/MessageList';
 import { createTextMessage, createImageMessage,createLocationMessage } from './app/utils/MessageUtils';
+import Toolbar from './app/components/Toolbar';
 
 export default class App extends React.Component {
   state = {
@@ -15,6 +16,7 @@ export default class App extends React.Component {
       }),
     ],
     fullscreenImageId: null,
+    isInputFocused: false;
   };
 
   componentWillMount() {
@@ -68,11 +70,48 @@ export default class App extends React.Component {
         );
         break;
       case 'image':
-          this.setState({ fullscreenImageId: id });
+          this.setState({ 
+            fullscreenImageId: id,
+            isInputFocused: false,
+          });
           break;
       default:
         break;
     }
+  };
+
+  handlePressToolbarCamera = () => {
+    
+  };
+
+  handlePressToolbarLocation = () => {
+    const { messages } = this.state;
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { coords: { latitude, longitude } } = position;
+
+      this.setState({
+        messages: [
+          createLocationMessage({
+            latitude,
+            longitude,
+          }),
+          ...messages,
+        ],
+      });
+    });
+  };
+
+  handleChangeFocus = (isFocused) => {
+    this.setState({ isInputFocused: isFocused});
+  };
+
+  handleSubmit = (text) => {
+    const { messages } = this.state;
+
+    this.setState({
+      messages: [createTextMessage(text), ...messages],
+    });
   };
 
   renderMessageList() {
@@ -94,8 +133,18 @@ export default class App extends React.Component {
   }
 
   renderToolbar() {
+    const { isInputFocused } = this.state;
+
     return (
-      <View style={styles.toolbar}></View>
+      <View style={styles.toolbar}>
+        <Toolbar
+          isFocused={isInputFocused}
+          onSubmit={this.handleSubmit}
+          onChangeFocus={this.handleChangeFocus}
+          onPressCamera={this.handlePressToolbarCamera}
+          onPressLocation={this.handlePressToolbarLocation}
+        />
+      </View>
     );
   }
 
