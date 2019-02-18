@@ -4,6 +4,7 @@ import Status from './app/components/Status';
 import MessageList from './app/components/MessageList';
 import { createTextMessage, createImageMessage,createLocationMessage } from './app/utils/MessageUtils';
 import Toolbar from './app/components/Toolbar';
+import ImageGrid from './app/components/ImageGrid';
 
 export default class App extends React.Component {
   state = {
@@ -16,7 +17,7 @@ export default class App extends React.Component {
       }),
     ],
     fullscreenImageId: null,
-    isInputFocused: false;
+    isInputFocused: false,
   };
 
   componentWillMount() {
@@ -80,6 +81,14 @@ export default class App extends React.Component {
     }
   };
 
+  handlePressImage = (uri) => {
+    const { messages } = this.state;
+
+    this.setState({
+      messages: [createImageMessage(uri), ...messages],
+    });
+  };
+
   handlePressToolbarCamera = () => {
     
   };
@@ -128,7 +137,9 @@ export default class App extends React.Component {
 
   renderInputMethodEditor() {
     return (
-      <View style={styles.inputMethodEditor}></View>
+      <View style={styles.inputMethodEditor}>
+        <ImageGrid onPressImage={this.handlePressImage} />
+      </View>
     );
   }
 

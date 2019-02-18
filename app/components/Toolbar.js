@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-const ToolbarButton = ({ title, onPress }) => {
+const ToolbarButton = ({ title, onPress }) => (
     <TouchableOpacity onPress={onPress}>
-        <Text style={StyleSheet.button}>{title}</Text>
+        <Text style={styles.button}>{title}</Text>
     </TouchableOpacity>
-};
+);
 
 ToolbarButton.propTypes = {
     title: PropTypes.string.isRequired,
@@ -78,12 +78,12 @@ export default class Toolbar extends Component {
         const { text } = this.state;
 
         return(
-            <View style={StyleSheet.toolbar}>
+            <View style={styles.toolbar}>
                 <ToolbarButton title={'C'} onPress={onPressCamera} />
                 <ToolbarButton title={'L'} onPress={onPressLocation} />
-                <View style={StyleSheet.inputContainer}>
+                <View style={styles.inputContainer}>
                     <TextInput
-                        style={StyleSheet.input}
+                        style={styles.input}
                         underlineColorAndroid={'transparent'}
                         placeholder={'Type something'}
                         blurOnSubmit={false}
