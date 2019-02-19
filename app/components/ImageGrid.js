@@ -61,7 +61,7 @@ export default class ImageGrid extends Component {
 
     renderItem = ({ item: { uri }, size, marginTop, marginLeft }) => {
         const { onPressImage } = this.props;
-        
+
         const style = {
             width: size,
             height: size,
